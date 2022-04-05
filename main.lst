@@ -1,0 +1,45 @@
+     1                                  ;memory.asm
+     2                                  section .data
+     3 00000000 7B                          bNum db 123
+     4 00000001 3930                        wNum dw 12345
+     5 00000003 0000<rept>                  warray times    5 dw 0
+     6                                      
+     7 0000000D 39300000                    dNum  dd 12345
+     8 00000011 3930000000000000            qNum1 dq 12345
+     9 00000019 61626300                    text1 db "abc",0
+    10 0000001D 50455254FB210940            qNum2 dq 3.141592654
+    11 00000025 63646500                    text2 db "cde", 0
+    12                                  section .bss
+    13 00000000 <res 00000001>              bvar resb 1
+    14 00000001 <res 00000004>              dvar resd 1
+    15 00000005 <res 00000014>              wvar resw 10
+    16 00000019 <res 00000018>              qvar resq 3
+    17                                  section .text
+    18                                      global main
+    19                                  main:
+    20 00000000 4889E5                      mov rbp, rsp; for correct debugging
+    21 00000003 55                      push rbp
+    22 00000004 4889E5                  mov rbp, rsp
+    23                                      
+    24 00000007 488D0425[00000000]          lea rax, [bNum]
+    25 0000000F 48B8-                       mov rax, bNum
+    25 00000011 [0000000000000000] 
+    26 00000019 4831C0                      xor rax, rax
+    27 0000001C 8A0425[00000000]            mov al, [bNum]
+    28 00000023 48890425[00000000]          mov [bvar], rax
+    29 0000002B 488D0425[00000000]          lea rax, [bvar]
+    30 00000033 488D0425[01000000]          lea rax, [wNum]
+    31 0000003B 488B0425[01000000]          mov rax, [wNum]
+    32 00000043 488D0425[19000000]          lea rax, [text1]
+    33 0000004B 48B8-                       mov rax, text1
+    33 0000004D [1900000000000000] 
+    34 00000055 48B8-                       mov rax, text1+1
+    34 00000057 [1A00000000000000] 
+    35 0000005F 488D0425[1A000000]          lea rax, [text1+1]
+    36 00000067 488B0425[19000000]          mov rax, [text1]
+    37 0000006F 488B0425[1A000000]          mov rax, [text1+1]
+    38                                  
+    39                                  
+    40 00000077 4889EC                  mov rsp, rbp
+    41 0000007A 5D                      pop rbp
+    42 0000007B C3                      ret
